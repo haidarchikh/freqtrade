@@ -47,6 +47,14 @@ mkdocs serve
 
 ## [Freqtrade GPT](https://chatgpt.com/g/g-JfyoeJta0-freqtrade-advisor)
 
-## Run baktest
+## Run backtesting
 
+```sh
 freqtrade backtesting --config user_data/config.json --strategy TrendFollowingStrategy
+```
+
+## Start juptyer notebook
+
+```sh
+docker compose -f docker/docker-compose-jupyter.yml up
+```
