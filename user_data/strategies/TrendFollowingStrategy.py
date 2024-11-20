@@ -19,6 +19,8 @@ class TrendFollowingStrategy(IStrategy):
     trailing_stop_positive_offset = 0.1
     trailing_only_offset_is_reached = False
 
+    can_short = True
+
     timeframe = "5m"
 
     def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
