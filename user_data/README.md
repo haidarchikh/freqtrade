@@ -58,3 +58,14 @@ freqtrade backtesting --config user_data/config.json --strategy TrendFollowingSt
 ```sh
 docker compose -f docker/docker-compose-jupyter.yml up
 ```
+
+## FreqAI
+
+```sh
+
+# train modal
+freqtrade backtesting --config user_data/configs/config_freqai.json --freqaimodel LightGBMRegressor  --strategy FreqaiExampleStrategy --timerange 20240601-20241201
+
+# view modal
+tensorboard --logdir user_data/models/id-2
+```
