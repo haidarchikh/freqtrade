@@ -64,8 +64,11 @@ docker compose -f docker/docker-compose-jupyter.yml up
 ```sh
 
 # train modal
-freqtrade backtesting --config user_data/configs/config_freqai.json --freqaimodel LightGBMRegressor  --strategy FreqaiExampleStrategy --timerange 20240601-20241201
+freqtrade backtesting --config user_data/configs/config_freqai.json --freqaimodel LightGBMRegressor  --strategy FreqaiExampleStrategy --timerange 20240601-20240701
 
-# view modal
+# view modal in tensor dashboard
 tensorboard --logdir user_data/models/id-2
+
+# plot data
+freqtrade plot-dataframe  --config user_data/configs/config_freqai.json --freqaimodel LightGBMRegressor  --strategy FreqaiExampleStrategy --timerange 20240615-20240701
 ```
