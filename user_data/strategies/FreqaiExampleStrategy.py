@@ -31,9 +31,7 @@ class FreqaiExampleStrategy(IStrategy):
         "main_plot": {},
         "subplots": {
             "&-s_close": {"&-s_close": {"color": "blue"}},
-            "do_predict": {
-                "do_predict": {"color": "brown"},
-            },
+            "do_predict": {"do_predict": {"color": "brown"}},
         },
     }
 
@@ -198,28 +196,6 @@ class FreqaiExampleStrategy(IStrategy):
             - 1
         )
 
-        # Classifiers are typically set up with strings as targets:
-        # df['&s-up_or_down'] = np.where( df["close"].shift(-100) >
-        #                                 df["close"], 'up', 'down')
-
-        # If user wishes to use multiple targets, they can add more by
-        # appending more columns with '&'. User should keep in mind that multi targets
-        # requires a multioutput prediction model such as
-        # freqai/prediction_models/CatboostRegressorMultiTarget.py,
-        # freqtrade trade --freqaimodel CatboostRegressorMultiTarget
-
-        # df["&-s_range"] = (
-        #     df["close"]
-        #     .shift(-self.freqai_info["feature_parameters"]["label_period_candles"])
-        #     .rolling(self.freqai_info["feature_parameters"]["label_period_candles"])
-        #     .max()
-        #     -
-        #     df["close"]
-        #     .shift(-self.freqai_info["feature_parameters"]["label_period_candles"])
-        #     .rolling(self.freqai_info["feature_parameters"]["label_period_candles"])
-        #     .min()
-        # )
-
         return dataframe
 
     def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
@@ -235,20 +211,13 @@ class FreqaiExampleStrategy(IStrategy):
         return dataframe
 
     def populate_entry_trend(self, df: DataFrame, metadata: dict) -> DataFrame:
-        enter_long_conditions = [
-            df["do_predict"] == 1,
-            df["&-s_close"] > 0.01,
-        ]
+        enter_long_conditions = [df["do_predict"] == 1, df["&-s_close"] > 0.01]
+        enter_short_conditions = [df["do_predict"] == 1, df["&-s_close"] < -0.01]
 
         if enter_long_conditions:
             df.loc[
                 reduce(lambda x, y: x & y, enter_long_conditions), ["enter_long", "enter_tag"]
             ] = (1, "long")
-
-        enter_short_conditions = [
-            df["do_predict"] == 1,
-            df["&-s_close"] < -0.01,
-        ]
 
         if enter_short_conditions:
             df.loc[
@@ -259,10 +228,11 @@ class FreqaiExampleStrategy(IStrategy):
 
     def populate_exit_trend(self, df: DataFrame, metadata: dict) -> DataFrame:
         exit_long_conditions = [df["do_predict"] == 1, df["&-s_close"] < 0]
+        exit_short_conditions = [df["do_predict"] == 1, df["&-s_close"] > 0]
+
         if exit_long_conditions:
             df.loc[reduce(lambda x, y: x & y, exit_long_conditions), "exit_long"] = 1
 
-        exit_short_conditions = [df["do_predict"] == 1, df["&-s_close"] > 0]
         if exit_short_conditions:
             df.loc[reduce(lambda x, y: x & y, exit_short_conditions), "exit_short"] = 1
 
