@@ -74,4 +74,7 @@ tensorboard --logdir user_data/models/id-2
 
 # list models
 freqtrade list-freqaimodels
+
+# RL 
+freqtrade backtesting --freqaimodel ReinforcementLearner --strategy freqai_rl_test_strat  --config user_data/configs/config_freqai_rl.json --timerange 20240601-20240701
 ```
