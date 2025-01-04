@@ -12,6 +12,7 @@
   "strategy": "freqai_test_strat",
   "dry_run_wallet": 1000,
   "cancel_open_orders_on_exit": true,
+  "fee": 0.0015,
   "unfilledtimeout": {
     "entry": 10,
     "exit": 30
@@ -22,7 +23,7 @@
     "secret": "",
     "ccxt_config": {},
     "ccxt_async_config": {},
-    "pair_whitelist": ["1INCH/USDT:USDT", "ALGO/USDT:USDT"],
+    "pair_whitelist": ["DOGE/USDT:USDT", "XRP/USDT:USDT"],
     "pair_blacklist": []
   },
   "entry_pricing": {
@@ -44,17 +45,23 @@
   "freqaimodel_path": "freqai/prediction_models",
   "freqai": {
     "enabled": true,
+    "continual_learning": true,
+    "conv_width": 1,
     "purge_old_models": 2,
-    "train_period_days": 15,
-    "backtest_period_days": 10,
+    "train_period_days": 5,
+    "backtest_period_days": 2,
     "live_retrain_hours": 0,
     "expiration_hours": 1,
-    "identifier": "unique-id100",
+    "identifier": "unique-2",
     "live_trained_timestamp": 0,
     "data_kitchen_thread_count": 2,
-    "activate_tensorboard": false,
+    "activate_tensorboard": true,
+    "data_split_parameters": {
+      "test_size": 0.33,
+      "shuffle": true
+    },
     "feature_parameters": {
-      "include_timeframes": ["3m", "15m", "1h"],
+      "include_timeframes": ["3m"],
       "include_corr_pairlist": ["BTC/USDT:USDT", "ETH/USDT:USDT"],
       "label_period_candles": 20,
       "include_shifted_candles": 1,
@@ -63,30 +70,31 @@
       "principal_component_analysis": false,
       "use_SVM_to_remove_outliers": true,
       "stratify_training_data": 0,
-      "indicator_periods_candles": [10],
-      "shuffle_after_split": false,
-      "buffer_train_data_candles": 0
+      "indicator_periods_candles": [10, 20],
+      "buffer_train_data_candles": 0,
+      "shuffle_after_split": false
     },
-    "data_split_parameters": { "test_size": 0.33, "shuffle": false },
     "model_training_parameters": {
-      "learning_rate": 0.00025,
+      "learning_rate": 0.0001,
       "gamma": 0.9,
-      "verbose": 1
+      "verbose": 2
     },
     "rl_config": {
-      "train_cycles": 1,
-      "thread_count": 2,
+      "drop_ohlc_from_features": true,
+      "randomize_starting_position": true,
+      "progress_bar": true,
+      "train_cycles": 2,
+      "thread_count": 8,
       "max_trade_duration_candles": 300,
       "model_type": "PPO",
       "policy_type": "MlpPolicy",
-      "max_training_drawdown_pct": 0.5,
-      "net_arch": [32, 32],
+      "max_training_drawdown_pct": 0.1,
+      "net_arch": [64, 64],
       "model_reward_parameters": {
         "rr": 1,
-        "profit_aim": 0.02,
+        "profit_aim": 0.03,
         "win_reward_factor": 2
-      },
-      "drop_ohlc_from_features": false
+      }
     }
   },
   "bot_name": "",

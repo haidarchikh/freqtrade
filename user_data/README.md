@@ -53,6 +53,12 @@ mkdocs serve
 freqtrade backtesting --config user_data/config.json --strategy TrendFollowingStrategy
 ```
 
+## Misc commands
+
+```sh
+freqtrade download-data --exchange binance --timeframe 1m --pairs "DOGE/USDT:USDT" "XRP/USDT:USDT" "BTC/USDT:USDT" "ETH/USDT:USDT" --timerange 20240101-20250101
+```
+
 ## Start juptyer notebook
 
 ```sh
@@ -76,5 +82,22 @@ tensorboard --logdir user_data/models/id-2
 freqtrade list-freqaimodels
 
 # RL 
-freqtrade backtesting --freqaimodel ReinforcementLearner --strategy freqai_rl_test_strat  --config user_data/configs/config_freqai_rl.json --timerange 20240601-20240701
+freqtrade backtesting --freqaimodel ReinforcementLearner --strategy freqai_rl_test_strat  --config user_data/configs/config_freqai_rl.json --timerange 20240601-20240701 --logfile --cache none --export signals
+
+freqtrade backtesting-analysis --freqaimodel ReinforcementLearner --strategy freqai_rl_test_strat  --config user_data/configs/config_freqai_rl.json --timerange 20240601-2024070 --analysis-groups 0 1 2 3 4 5
+
+rm -rf user_data/models/* 
+rm -rf user_data/backtest_results/*
+rm -rf user_data/plotting/*
+rm -rf user_data/analysis/*
+```
+
+## Tools
+
+```sh
+# UML diagram
+brew install graphviz
+pip install pylint
+cd freqtrade
+pyreverse -o pdf -p Freqtrade .
 ```
