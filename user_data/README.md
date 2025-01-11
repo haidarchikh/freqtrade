@@ -76,13 +76,15 @@ freqtrade backtesting --config user_data/configs/config_freqai.json --freqaimode
 freqtrade plot-dataframe  --config user_data/configs/config_freqai.json --freqaimodel XGBoostRegressor --strategy FreqaiExampleStrategy --timerange 20240615-20240701
 
 # view modal in tensor dashboard
-tensorboard --logdir user_data/models/id-2
+tensorboard --logdir user_data/models/unique-1
 
 # list models
 freqtrade list-freqaimodels
 
 # RL 
 freqtrade backtesting --freqaimodel ReinforcementLearner --strategy freqai_rl_test_strat  --config user_data/configs/config_freqai_rl.json --timerange 20240601-20240701 --logfile --cache none --export signals
+
+freqtrade backtesting --freqaimodel ReinforcementLearner_multiproc --strategy freqai_rl_test_strat  --config user_data/configs/config_freqai_rl.json --timerange 20240601-20240701
 
 freqtrade backtesting-analysis --freqaimodel ReinforcementLearner --strategy freqai_rl_test_strat  --config user_data/configs/config_freqai_rl.json --timerange 20240601-2024070 --analysis-groups 0 1 2 3 4 5
 
